@@ -1,0 +1,21 @@
+name: GitHub Security Alerts for Jira
+
+on:
+  schedule:
+    - cron: '0 */6 * * *'
+  workflow_dispatch:
+
+jobs:
+  syncSecurityAlerts:
+    runs-on: ubuntu-latest
+    steps:
+      - name: "Sync security alerts to Jira issues"
+        uses: reload/github-security-jira@v1.x
+        env:
+          GH_SECURITY_TOKEN: ${{ secrets.GH_SECURITY_TOKEN }}
+          JIRA_TOKEN: ${{ secrets.JIRA_API_TOKEN }}
+          JIRA_HOST: https://optimal-reach.atlassian.net
+          JIRA_USER: devs@sreducationgroup.org
+          JIRA_PROJECT: SE
+          JIRA_ISSUE_TYPE: Security
+          JIRA_RESTRICTED_COMMENT_ROLE: "*"
