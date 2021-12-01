@@ -3,6 +3,9 @@ on:
   pull_request:
     branches: [main, beta, staging]
   workflow_call:
+    secrets:
+      ssh-private-key:
+        required: true
 jobs:
   npm:
     name: "NPM"
@@ -13,7 +16,7 @@ jobs:
     - name: Set up ssh
       uses: webfactory/ssh-agent@v0.4.1
       with:
-        ssh-private-key: ${{ secrets.CAPUSER_SSH_PRIVATE_KEY }}
+        ssh-private-key: ${{ secrets.ssh-private-key }}
     - name: Install MySQL Client
       run: |
         sudo apt-get update
