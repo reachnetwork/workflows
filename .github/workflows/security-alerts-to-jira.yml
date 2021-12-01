@@ -5,6 +5,11 @@ on:
     - cron: '0 */6 * * *'
   workflow_dispatch:
   workflow_call:
+    secrets:
+      gh-security-token:
+        required: true
+      jira-api-token:
+        required: true
 
 jobs:
   syncSecurityAlerts:
@@ -13,8 +18,8 @@ jobs:
       - name: "Sync security alerts to Jira issues"
         uses: reload/github-security-jira@v1.x
         env:
-          GH_SECURITY_TOKEN: ${{ secrets.GH_SECURITY_TOKEN }}
-          JIRA_TOKEN: ${{ secrets.JIRA_API_TOKEN }}
+          GH_SECURITY_TOKEN: ${{ secrets.gh-security-token }}
+          JIRA_TOKEN: ${{ secrets.jira-api-token }}
           JIRA_HOST: https://optimal-reach.atlassian.net
           JIRA_USER: devs@sreducationgroup.org
           JIRA_PROJECT: SE
