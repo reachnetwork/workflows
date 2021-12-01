@@ -17,6 +17,7 @@ name: Super Linter
 on:
   pull_request:
     branches: [main, beta, staging]
+  workflow_call:
 
 ###############
 # Set the Job #
