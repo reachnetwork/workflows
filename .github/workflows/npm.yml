@@ -6,6 +6,8 @@ on:
     secrets:
       ssh-private-key:
         required: true
+      sidekiq-pro-key:
+        required: true
 jobs:
   npm:
     name: "NPM"
@@ -35,7 +37,7 @@ jobs:
     - name: Bundle
       run: |
         gem install bundler --version 2.1.4
-        bundle config gems.contribsys.com ${{ secrets.SIDEKIQ_PRO_KEY }}
+        bundle config gems.contribsys.com ${{ secrets.sidekiq-pro-key }}
         bundle config path vendor/bundle
         bundle install --jobs 4 --retry 3 --path vendor/bundle
     - name: Setup node
