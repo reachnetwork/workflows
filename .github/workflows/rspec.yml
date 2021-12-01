@@ -72,7 +72,7 @@ jobs:
         TEST_DB_USERNAME: 'root'
         TEST_DB_PASSWORD: 'root'
         TEST_DB_HOST: '127.0.0.1'
-        TEST_DB_ENCODING: 'utf8'
+        TEST_DB_ENCODING: 'utf8mb4'
         TEST_DB_PORT: ${{ job.services.mysql.ports[3306] }} # get randomly assigned published port
         REDIS_PORT: ${{ job.services.redis.ports[6379] }}
       run: |
@@ -92,7 +92,7 @@ jobs:
         TEST_DB_USERNAME: 'root'
         TEST_DB_PASSWORD: 'root'
         TEST_DB_HOST: '127.0.0.1'
-        TEST_DB_ENCODING: 'utf8'
+        TEST_DB_ENCODING: 'utf8mb4'
         TEST_DB_PORT: ${{ job.services.mysql.ports[3306] }} # get randomly assigned published port
         AWS_BUCKET_NAME: ${{ secrets.aws-bucket-name }}
         AWS_ACCESS_KEY_ID: ${{ secrets.aws-access-key-id }}
