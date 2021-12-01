@@ -1,7 +1,4 @@
 name: Webpack Bundle Check
-on:
-  pull_request:
-    branches: [main, beta, staging]
 jobs:
   npm:
     name: "NPM"
