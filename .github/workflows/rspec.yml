@@ -40,6 +40,10 @@ jobs:
         image: redis:5
         ports:
         - 6379/tcp
+      elasticsearch:
+        image: elasticsearch:2.3.3
+        ports:
+        - 9200/tcp
     steps:
     - name: Checkout repo
       uses: actions/checkout@v2
@@ -50,7 +54,7 @@ jobs:
     - name: Set up ruby
       uses: ruby/setup-ruby@v1
       with:
-        ruby-version: 2.7
+        ruby-version: 2.7.4
     - name: Cache bundler
       uses: actions/cache@v2
       with:
@@ -68,27 +72,28 @@ jobs:
       env:
         RAILS_ENV: test
         TEST_DB_ADAPTER: 'mysql2'
-        TEST_DB_DB: 'degreepage_test'
+        TEST_DB_DB: 'outreach_test'
         TEST_DB_USERNAME: 'root'
         TEST_DB_PASSWORD: 'root'
         TEST_DB_HOST: '127.0.0.1'
         TEST_DB_ENCODING: 'utf8mb4'
         TEST_DB_PORT: ${{ job.services.mysql.ports[3306] }} # get randomly assigned published port
         REDIS_PORT: ${{ job.services.redis.ports[6379] }}
+        ES_PORT: ${{ job.services.elasticsearch.ports[9200] }}
       run: |
         gem install bundler --version 2.1.4
         bundle config gems.contribsys.com ${{ secrets.sidekiq-pro-key }}
         bundle config path vendor/bundle
         bundle install --jobs 4 --retry 3 --path vendor/bundle
         mysql -e "set global sql_mode='STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION';" -uroot -proot --host 127.0.0.1 --port ${{ job.services.mysql.ports[3306] }}
-        mysql -e 'CREATE DATABASE IF NOT EXISTS degreepage_test;' -uroot -proot --host 127.0.0.1 --port ${{ job.services.mysql.ports[3306] }}
+        mysql -e 'CREATE DATABASE IF NOT EXISTS outreach_test;' -uroot -proot --host 127.0.0.1 --port ${{ job.services.mysql.ports[3306] }}
         # create DB for Rails 5.x
         bundle exec rails db:setup
     - name: Run tests
       env:
         RAILS_ENV: test
         TEST_DB_ADAPTER: 'mysql2'
-        TEST_DB_DB: 'degreepage_test'
+        TEST_DB_DB: 'outreach_test'
         TEST_DB_USERNAME: 'root'
         TEST_DB_PASSWORD: 'root'
         TEST_DB_HOST: '127.0.0.1'
@@ -100,6 +105,8 @@ jobs:
         AWS_REGION: ${{ secrets.aws-region }}
         AMAZON_CLOUDFRONT: ${{ secrets.aws-cloudfront }}
         CLOUDFRONT_ID: ${{ secrets.aws-cloudfront-id }}
+        DB_PORT: ${{ job.services.mysql.ports[3306] }} # get randomly assigned published port
         REDIS_PORT: ${{ job.services.redis.ports[6379] }}
+        ES_PORT: ${{ job.services.elasticsearch.ports[9200] }}
       run: |
         bundle exec rspec --format documentation
