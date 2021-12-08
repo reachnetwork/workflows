@@ -8,7 +8,7 @@ on:
     secrets:
       gh-security-token:
         required: true
-      jira-token:
+      jira-api-token:
         required: true
 
 jobs:
