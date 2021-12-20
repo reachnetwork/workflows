@@ -5,6 +5,10 @@ on:
     - main
     - beta
   workflow_call:
+    inputs:
+      ruby-version:
+        type: string
+        default: 2.7.4
     secrets:
       ssh-private-key:
         required: true
@@ -50,7 +54,7 @@ jobs:
     - name: Set up ruby
       uses: ruby/setup-ruby@v1
       with:
-        ruby-version: 2.7
+        ruby-version: ${{ inputs.ruby-version }}
     - name: Cache bundler
       uses: actions/cache@v2
       with:
