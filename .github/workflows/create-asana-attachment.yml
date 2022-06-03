@@ -1,6 +1,11 @@
 on:
   pull_request:
     types: [opened, reopened]
+  workflow_call:
+    secrets:
+      asana-secret:
+        required: true
+      
 
 jobs:
   create-asana-attachment-job:
@@ -11,6 +16,6 @@ jobs:
         uses: Asana/create-app-attachment-github-action@latest
         id: postAttachment
         with:
-          asana-secret: ${{ secrets.ASANA_SECRET }}
+          asana-secret: ${{ secrets.asana-secret }}
       - name: Log output status
         run: echo "Status is ${{ steps.postAttachment.outputs.status }}"
