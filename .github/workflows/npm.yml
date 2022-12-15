@@ -6,7 +6,7 @@ on:
     inputs:
       ruby-version:
         type: string
-        default: 2.7.4
+        default: 2.7.5
     secrets:
       ssh-private-key:
         required: true
@@ -15,7 +15,7 @@ on:
 jobs:
   npm:
     name: "NPM"
-    runs-on: ubuntu-18.04
+    runs-on: ubuntu-20.04
     steps:
     - name: Checkout repo
       uses: actions/checkout@v2
