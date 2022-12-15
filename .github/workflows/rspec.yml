@@ -8,7 +8,7 @@ on:
     inputs:
       ruby-version:
         type: string
-        default: 2.7.4
+        default: 2.7.5
     secrets:
       ssh-private-key:
         required: true
@@ -29,11 +29,11 @@ on:
 jobs:
   rspec:
     name: RSpec
-    runs-on: ubuntu-18.04
+    runs-on: ubuntu-20.04
     services:
       # How to use MySQL
       mysql:
-        image: mysql:5.7
+        image: mysql:8.0
         env:
           MYSQL_ROOT_PASSWORD: 'root'
         ports:
