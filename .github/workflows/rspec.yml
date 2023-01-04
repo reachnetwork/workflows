@@ -84,7 +84,7 @@ jobs:
         bundle config gems.contribsys.com ${{ secrets.sidekiq-pro-key }}
         bundle config path vendor/bundle
         bundle install --jobs 4 --retry 3 --path vendor/bundle
-        mysql -e "set global sql_mode='STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION';" -uroot -proot --host 127.0.0.1 --port ${{ job.services.mysql.ports[3306] }}
+        mysql -e "set global sql_mode='STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION';" -uroot -proot --host 127.0.0.1 --port ${{ job.services.mysql.ports[3306] }}
         mysql -e 'CREATE DATABASE IF NOT EXISTS degreepage_test;' -uroot -proot --host 127.0.0.1 --port ${{ job.services.mysql.ports[3306] }}
         # create DB for Rails 5.x
         bundle exec rails db:setup
