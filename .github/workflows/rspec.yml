@@ -8,7 +8,7 @@ on:
     inputs:
       ruby-version:
         type: string
-        default: 3.0.x
+        default: 3.0.5
     secrets:
       ssh-private-key:
         required: true
