@@ -18,7 +18,7 @@ jobs:
     runs-on: ubuntu-20.04
     steps:
     - name: Checkout repo
-      uses: actions/checkout@v3
+      uses: actions/checkout@v2
     - name: Set up ssh
       uses: webfactory/ssh-agent@v0.4.1
       with:
@@ -32,7 +32,7 @@ jobs:
       with:
         ruby-version: ${{ inputs.ruby-version }}
     - name: Cache bundler
-      uses: actions/cache@v2
+      uses: actions/cache@v3
       with:
         path: vendor/bundle
         key: ${{ runner.os }}-gems-${{ hashFiles('**/Gemfile.lock') }}
